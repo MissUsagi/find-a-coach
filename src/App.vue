@@ -1,30 +1,42 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
-  <router-view/>
+<the-header></the-header>
+<router-view></router-view>
 </template>
 
+<script>
+import TheHeader from './components/layout/TheHeader.vue';
+
+export default ({
+components: {
+  TheHeader
+}
+})
+</script>
+
+
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+@import url('https://fonts.googleapis.com/css2?family=Roboto&family=Secular+One&display=swap');
+
+:root {
+  --primary-color: #6f2dbd;
+  --primary-dark: rgb(33, 25, 80);
+  --primary-light: #b298dc;
+  --secondary-color: #b9faf6;
+  --secondary-dark: #5bc0be;
+  --pink: #f391e3;
+  --pink-pastel: #d9b3ca;
 }
 
-nav {
-  padding: 30px;
+
+* {
+  box-sizing: border-box;
 }
 
-nav a {
-  font-weight: bold;
-  color: #2c3e50;
+html {
+  font-family: "Roboto", sans-serif;
 }
 
-nav a.router-link-exact-active {
-  color: #42b983;
+body {
+  margin: 0;
 }
 </style>
