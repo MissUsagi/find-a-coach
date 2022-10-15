@@ -23,5 +23,21 @@
     "last 2 versions",
     "not dead",
     "not ie 11"
-  ]
+  ],
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "node": true
+    },
+    "extends": [
+      "plugin:vue/essential",
+      "eslint:recommended"
+    ],
+    "parserOptions": {
+      "parser": "babel-eslint"
+    },
+    "rules": {
+      "vue/no-multiple-template-root": "off"
+    }
+  }
 }
