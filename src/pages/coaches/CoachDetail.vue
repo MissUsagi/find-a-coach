@@ -1,4 +1,5 @@
 <template>
+<div>
 <section>
    <base-card>
    <h2> {{ fullName }} </h2>
@@ -20,8 +21,8 @@
 <p> {{ description }} </p>
 </base-card>
 </section>
+</div>
 </template>
-
 <script>
 export default {
   props: ["id"],

@@ -1,13 +1,19 @@
 <template>
 <div>
+<base-dialog :show="!!error" title="An error occured!" @close="handleError"><p>{{error}}</p></base-dialog> 
+<!-- !!error converts truthy string value into real boolean value -->
+<div>
  <coach-filter @change-filter="setFilters" ></coach-filter> <!-- event z coachfilter --> 
  <section>
     <base-card>
     <div class="controls">
-        <base-button mode="outline">Refresh</base-button>
-        <base-button v-if="!isCoach" link to="/register">Register as Coach</base-button>
+        <base-button mode="outline" @click="loadCoaches(true)">Refresh</base-button>
+        <base-button v-if="!isCoach && !isLoading" link to="/register">Register as Coach</base-button>
     </div>
-    <ul v-if="hasCoaches">
+    <div v-if="isLoading">
+        <base-spinner></base-spinner>
+    </div>
+    <ul v-else-if="hasCoaches">
         <coach-item v-for="coach in filteredCoaches" :key="coach.id" :id="coach.id" :first-name="coach.firstName" :last-name="coach.lastName" :rate="coach.hourlyRate" :areas="coach.areas"></coach-item>
         <!-- Dane ze store/index.js -->
         <!-- <li v-for="coach in filteredCoaches" :key="coach.id">{{ coach.firstName }}</li> -->
@@ -16,17 +22,21 @@
                   </base-card>
         </section>
  </div>
+</div>
 </template>
 
 <script>
 import CoachItem from '../../components/coaches/CoachItem.vue';
 import BaseButton from '../../components/ui/BaseButton.vue';
 import CoachFilter from '../../components/coaches/CoachFilter.vue'
+import BaseDialog from '../../components/ui/BaseDialog.vue';
 
 export default {
-  components: { CoachItem, BaseButton, CoachFilter },
+  components: { CoachItem, BaseButton, CoachFilter, BaseDialog },
   data(){
     return {
+        isLoading: false,
+        error: null,
         activeFilters: {
             frontend: true,
             backend: true,
@@ -54,14 +64,31 @@ export default {
             }) //1st is namespace 2nd is getter
         },
         hasCoaches() {
-            return this.$store.getters['coaches/hasCoaches'];
+            return !this.isLoading && this.$store.getters['coaches/hasCoaches'];
         }
     },
-    methods: {
-        setFilters(updatedFilters){
-            this.activeFilters = updatedFilters;
+  created() {
+    this.loadCoaches(); //bez argumentu -> refresh false by default
+  },
+  methods: {
+    setFilters(updatedFilters) {
+      this.activeFilters = updatedFilters;
+    },
+   async loadCoaches(refresh = false) {
+        this.isLoading = true;
+        try{
+          await this.$store.dispatch('coaches/loadCoaches', {forceRefresh: refresh }); //payloa - forceRefresh
+        } catch(error){
+            this.error = error.message || 'Something went wrong!';
         }
-    }
+        // const myTimeout = setTimeout(()=> {
+        this.isLoading = false;
+    // }, 500);
+    },
+      handleError(){
+    this.error = null;
+  },
+  },
 }
 </script>
 
