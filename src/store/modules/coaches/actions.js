@@ -8,8 +8,8 @@ export default {
          hourlyRate: data.rate,
          areas: data.areas
       };
-
-      const response = await fetch(`https://coach-app-41a35-default-rtdb.europe-west1.firebasedatabase.app/coaches/${userId}.json`, {  //json na końcu jest wymagany przez firebase //by default GET request
+      const token = context.rootGetters.token;
+      const response = await fetch(`https://coach-app-41a35-default-rtdb.europe-west1.firebasedatabase.app/coaches/${userId}.json?auth=` + token, {  //json na końcu jest wymagany przez firebase //by default GET request
          method: 'PUT', //overwrite lub created
          body: JSON.stringify(coachData), //object into json
       });

@@ -5,7 +5,8 @@ export default {
          userEmail: payload.email,
          message: payload.message,
       };
-      const response = await fetch(`https://coach-app-41a35-default-rtdb.europe-west1.firebasedatabase.app/requests/${payload.coachId}.json`, {
+      const token = context.rootGetters.token;
+      const response = await fetch(`https://coach-app-41a35-default-rtdb.europe-west1.firebasedatabase.app/requests/${payload.coachId}.json?auth` + token, {
          method: 'POST', //firebase automatycznie generuje ID
          body: JSON.stringify(newRequest)
       }); //requests to nowy node w bazie
