@@ -21,3 +21,5 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 ###Summary project based on my udemy course.
 ```
 Its main purpose was practicing routing/store/fetch api (firebase) and all the acquired knowledge about Vue 3.
+I already know that commits should be better described ;)
+```
